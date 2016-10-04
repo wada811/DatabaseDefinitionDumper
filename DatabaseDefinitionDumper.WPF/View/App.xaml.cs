@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DatabaseDefinitionDumper.Core;
+using DatabaseDefinitionDumper.WPF.Model;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +15,10 @@ namespace DatabaseDefinitionDumper.WPF
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            DatabaseDefinitionDumperContext.Current.SettingRepository = new WpfSettingRepository();
+            DatabaseDefinitionDumperContext.Current.Load();
+        }
     }
 }

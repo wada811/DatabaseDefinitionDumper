@@ -1,4 +1,5 @@
 ﻿using DatabaseDefinitionDumper.Core.Domain;
+using DatabaseDefinitionDumper.Core.Repository;
 
 namespace DatabaseDefinitionDumper.Core.Data
 {

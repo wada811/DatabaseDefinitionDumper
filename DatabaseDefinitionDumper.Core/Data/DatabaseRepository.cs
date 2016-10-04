@@ -1,4 +1,6 @@
 ﻿using DatabaseDefinitionDumper.Core.Domain;
+using DatabaseDefinitionDumper.Core.Repository;
+using System;
 using System.Collections.Generic;
 
 namespace DatabaseDefinitionDumper.Core.Data
@@ -9,6 +11,11 @@ namespace DatabaseDefinitionDumper.Core.Data
         public DatabaseRepository(IDataSource dataSource)
         {
             this.dataSource = dataSource;
+        }
+
+        public IObservable<bool> TestConnection()
+        {
+            return dataSource.TestConnection();
         }
 
         public List<Database> LoadDatabases()

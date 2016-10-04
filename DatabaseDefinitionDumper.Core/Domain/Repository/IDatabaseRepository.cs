@@ -1,13 +1,15 @@
-﻿using System;
+﻿using DatabaseDefinitionDumper.Core.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DatabaseDefinitionDumper.Core.Domain
+namespace DatabaseDefinitionDumper.Core.Repository
 {
     public interface IDatabaseRepository
     {
+        IObservable<bool> TestConnection();
         List<Database> LoadDatabases();
         List<Table> LoadTables(Database Database);
         List<TableTrigger> LoadTriggers(Database Database, Table Table);

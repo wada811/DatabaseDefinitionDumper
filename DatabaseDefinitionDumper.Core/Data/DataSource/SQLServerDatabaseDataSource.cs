@@ -1,9 +1,13 @@
 ﻿using Dapper;
 using DatabaseDefinitionDumper.Core.Domain;
 using DatabaseDefinitionDumper.Core.Domain.Model;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 
 namespace DatabaseDefinitionDumper.Core.Data
 {
@@ -13,6 +17,26 @@ namespace DatabaseDefinitionDumper.Core.Data
         public SQLServerDatabaseDataSource(ConnectionSettings ConnectionSettings)
         {
             this.connectionString = ConnectionSettings.ToConnectionString();
+        }
+
+        public IObservable<bool> TestConnection()
+        {
+            return Observable.Create<bool>(observer => {
+                using (var con = new SqlConnection(connectionString))
+                {
+                    try
+                    {
+                        con.Open();
+                        observer.OnNext(con.State == ConnectionState.Open);
+                        observer.OnCompleted();
+                    }
+                    catch (SqlException e)
+                    {
+                        observer.OnError(e);
+                    }
+                    return Disposable.Empty;
+                }
+            });
         }
 
         public List<Database> LoadDatabases()
