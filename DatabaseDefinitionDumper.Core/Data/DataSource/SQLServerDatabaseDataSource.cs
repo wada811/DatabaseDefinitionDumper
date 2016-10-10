@@ -129,7 +129,8 @@ LEFT OUTER JOIN (
 ) AS primary_keys ON primary_keys.parent_object_id = columns.object_id AND primary_keys.column_id = columns.column_id
 LEFT OUTER JOIN sys.extended_properties AS exd
     ON exd.major_id = columns.object_id AND exd.minor_id = columns.column_id AND exd.class = 1
-ORDER BY tables.Name, columns.column_id")
+WHERE tables.object_id = @TableId
+ORDER BY tables.Name, columns.column_id", new { TableId = Table.TableId })
                 .Select(x => {
                     return new TableColumn(
                         Database,
@@ -299,7 +300,8 @@ LEFT OUTER JOIN (
 ) AS primary_keys ON primary_keys.parent_object_id = columns.object_id AND primary_keys.column_id = columns.column_id
 LEFT OUTER JOIN sys.extended_properties AS exd
     ON exd.major_id = columns.object_id AND exd.minor_id = columns.column_id AND exd.class = 1
-ORDER BY views.Name, columns.column_id")
+WHERE views.object_id = @ViewId
+ORDER BY views.Name, columns.column_id", new { ViewId = View.ViewId })
                 .Select(x => {
                     return new ViewColumn(
                         Database,
