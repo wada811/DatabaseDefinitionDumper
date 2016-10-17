@@ -21,7 +21,8 @@ namespace DatabaseDefinitionDumper.Core.Data
 
         public IObservable<bool> TestConnection()
         {
-            return Observable.Create<bool>(observer => {
+            return Observable.Create<bool>(observer =>
+            {
                 using (var con = new SqlConnection(connectionString))
                 {
                     try
@@ -131,7 +132,8 @@ LEFT OUTER JOIN sys.extended_properties AS exd
     ON exd.major_id = columns.object_id AND exd.minor_id = columns.column_id AND exd.class = 1
 WHERE tables.object_id = @TableId
 ORDER BY tables.Name, columns.column_id", new { TableId = Table.TableId })
-                .Select(x => {
+                .Select(x =>
+                {
                     return new TableColumn(
                         Database,
                         Table,
@@ -197,7 +199,8 @@ LEFT OUTER JOIN sys.extended_properties AS exd
     ON exd.major_id = indexes.object_id AND exd.minor_id = indexes.index_id AND exd.class = 7
 WHERE tables.object_id = @TableId
 ORDER BY tables.Name, IndexType, indexes.index_id, indexes.key_ordinal, columns.column_id;", new { TableId = Table.TableId })
-                .Select(x => {
+                .Select(x =>
+                {
                     return new TableIndex(
                         Database,
                         Table,
@@ -302,7 +305,8 @@ LEFT OUTER JOIN sys.extended_properties AS exd
     ON exd.major_id = columns.object_id AND exd.minor_id = columns.column_id AND exd.class = 1
 WHERE views.object_id = @ViewId
 ORDER BY views.Name, columns.column_id", new { ViewId = View.ViewId })
-                .Select(x => {
+                .Select(x =>
+                {
                     return new ViewColumn(
                         Database,
                         View,
@@ -368,7 +372,8 @@ LEFT OUTER JOIN sys.extended_properties AS exd
     ON exd.major_id = indexes.object_id AND exd.minor_id = indexes.index_id AND exd.class = 7
 WHERE views.object_id = @ViewId
 ORDER BY views.Name, IndexType, indexes.index_id, indexes.key_ordinal, columns.column_id;", new { ViewId = View.ViewId })
-                .Select(x => {
+                .Select(x =>
+                {
                     return new ViewIndex(
                         Database,
                         View,
