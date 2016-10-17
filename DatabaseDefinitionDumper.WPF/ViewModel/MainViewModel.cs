@@ -55,16 +55,8 @@ namespace DatabaseDefinitionDumper.WPF.ViewModel
 
             DumpCommand = new ReactiveCommand().AddTo(CompositeDisposable);
             DumpCommand.Subscribe(_ => {
-                var context = DatabaseDefinitionDumperContext.Current;
-                context.DatabaseRepository = new DatabaseRepository(new SQLServerDatabaseDataSource(context.CurrentConnectionSettings));
-                using (var writer = new StreamWriter(OutputFilePath.Value))
-                {
-                    var databases = context.DatabaseRepository.LoadDatabases();
-                    databases.ForEach(database =>
-                    {
-                        writer.WriteLine($"database: {database.Name}");
-                    });
-                }
+                DatabaseDefinitionDumperContext.Current.DatabaseRepository = new DatabaseRepository(new SQLServerDatabaseDataSource(DatabaseDefinitionDumperContext.Current.CurrentConnectionSettings));
+                DatabaseDefinitionDumperContext.Current.LoadDatabases();
             }).AddTo(CompositeDisposable);
 
             DebugCommand = new ReactiveCommand().AddTo(CompositeDisposable);

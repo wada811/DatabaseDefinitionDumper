@@ -1,4 +1,5 @@
-﻿using DatabaseDefinitionDumper.Core.Domain.Model;
+﻿using DatabaseDefinitionDumper.Core.Domain;
+using DatabaseDefinitionDumper.Core.Domain.Model;
 using DatabaseDefinitionDumper.Core.Repository;
 using Newtonsoft.Json;
 using System;
@@ -21,6 +22,7 @@ namespace DatabaseDefinitionDumper.Core
 
         private const string ConnectionSettingsListKey = "ConnectionSettingsList";
         public ObservableCollection<ConnectionSettings> ConnectionSettingsList { get; private set; } = new ObservableCollection<ConnectionSettings>();
+
         private ConnectionSettings _CurrentConnectionSettings = new ConnectionSettings();
         public ConnectionSettings CurrentConnectionSettings
         {
@@ -62,5 +64,13 @@ namespace DatabaseDefinitionDumper.Core
                 () => Console.WriteLine("SettingRepository.Save().onCompleted()")
             );
         }
+
+        public ObservableCollection<Database> Databases { get; private set; } = new ObservableCollection<Database>();
+
+        public void LoadDatabases()
+        {
+            DatabaseRepository.LoadDatabases().ForEach(database => Databases.Add(database));
+        }
+
     }
 }
