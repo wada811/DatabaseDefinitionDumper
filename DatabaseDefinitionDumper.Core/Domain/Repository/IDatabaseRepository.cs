@@ -19,5 +19,6 @@ namespace DatabaseDefinitionDumper.Core.Repository
         List<ViewTrigger> LoadTriggers(Database Database, View View);
         List<ViewColumn> LoadColumns(Database Database, View View);
         List<ViewIndex> LoadIndexes(Database Database, View View);
+        List<dynamic> LoadProcedures(Database Database);
     }
 }

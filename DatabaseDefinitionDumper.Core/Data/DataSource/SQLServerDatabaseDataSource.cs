@@ -386,5 +386,25 @@ ORDER BY views.Name, IndexType, indexes.index_id, indexes.key_ordinal, columns.c
             }
         }
 
+        public List<dynamic> LoadProcedures(Database Database)
+        {
+            using (var con = new SqlConnection(connectionString))
+            {
+                return con.Query<dynamic>($@"use [{Database.Name}];
+SELECT
+    procedures.object_id AS ProcedureId,
+    procedures.name AS Name,
+    sql_modules.definition AS Definition,
+    procedures.create_date AS CreatedAt,
+    procedures.modify_date AS UpdatedAt
+FROM sys.procedures
+INNER JOIN sys.objects ON procedures.object_id = objects.object_id
+INNER JOIN sys.schemas ON objects.schema_id = schemas.schema_id
+INNER JOIN sys.sql_modules ON objects.object_id = sql_modules.object_id
+ORDER BY Name;
+")
+    .ToList();
+            }
+        }
     }
 }

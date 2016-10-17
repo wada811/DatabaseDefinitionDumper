@@ -62,5 +62,10 @@ namespace DatabaseDefinitionDumper.Core.Data
         {
             return dataSource.LoadIndexes(Database, View);
         }
+
+        public List<dynamic> LoadProcedures(Database Database)
+        {
+            return dataSource.LoadProcedures(Database);
+        }
     }
 }
